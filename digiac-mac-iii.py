@@ -53,9 +53,9 @@ entry(0xc088, "abi_unknown_3")
 wordentry(0xfffa, 3);
 
 # the vectors themselves
-entry(0xf022, "nmi_handler")
-entry(0xe0ca, "reset_handler")
-entry(0xe0dc, "irq_brk_handler")
+entry(0xe0dc, "nmi_handler")
+entry(0xf022, "reset_handler")
+entry(0xe0ca, "irq_brk_handler")
 
 # the I/O devices: a 2681 UART and a 6522 probably
 label(0x8000, "uart_reg_0")
@@ -81,8 +81,8 @@ label(0x900b, "via_reg_11")
 label(0x900d, "via_reg_13")
 label(0x900e, "via_reg_14")
 
-label(0xa000, "user_eprom_sig_lo")
-label(0xa001, "user_eprom_sig_hi")
+label(0xa000, "user_eprom_id_lo")
+label(0xa001, "user_eprom_id_hi")
 label(0xa002, "user_eprom_entry")
 
 # documented zero page
@@ -100,15 +100,33 @@ label(0x0204, "brk_v")
 label(0x0205, "brk_v_high")
 label(0x0206, "autorun_flag")
 
+# some vectors appear in constants
+entry(0xc8cd, "complex_irq_handler")
+expr(0xc85e, "<complex_irq_handler")
+expr(0xc863, ">complex_irq_handler")
+
+entry(0xf854, "simple_irq_handler")
+expr(0xf7fc, "<simple_irq_handler")
+expr(0xf801, ">simple_irq_handler")
+
+entry(0xdef6, "default_brk_handler")
+expr(0xdd4a, "<default_brk_handler")
+expr(0xdd4f, ">default_brk_handler")
+expr(0xe733, "<default_brk_handler")
+expr(0xe738, ">default_brk_handler")
+
+entry(0xe008, "alt_nmi_handler")
+expr(0xdfdd, "<alt_nmi_handler")
+expr(0xdfe2, ">alt_nmi_handler")
+
+entry(0xdd7c, "stack_underflow_handler")
+expr(0xf163, ">stack_underflow_handler")
+expr(0xf168, "<(stack_underflow_handler-1)")
+
 # looks like code but cannot yet see how it is reached
 entry(0xc262, "maybe_unreachable_c262")
 entry(0xc5e7, "maybe_unreachable_c5e7")
-entry(0xdd7c, "maybe_unreachable_dd7c")
-entry(0xdfd9, "maybe_unreachable_dfd9")
-entry(0xe008, "maybe_unreachable_e008")
 entry(0xe95b, "maybe_unreachable_e95b")
-
-entry(0xc8cc, "maybe_unreachable_c8cc")
 
 # some identified routines
 label(0xc21f, "serial_read_char")
