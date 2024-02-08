@@ -9,7 +9,7 @@ from commands import *
 # Load the program to be disassembled into the debugger's memory.
 # The md5sum is optional but helps avoid confusion if there are
 # multiple versions of the same program.
-load(0xc000, "digiac-mac-iii.rom.trunc", "6502", "5c5bee1f61aeaf6a387da6112720ab5b")
+load(0xc000, "digiac-mac-iii.rom", "6502", "83d9634079b0b7a116e2b425cc8dc786")
 
 # some likely jumptable entries spotted by eye
 wordentry(0xc6c5, 5);
@@ -45,12 +45,12 @@ entry(0xc060, "abi_clrscr")
 entry(0xc064, "abi_ledon")
 entry(0xc068, "abi_ledoff")
 
-entry(0xc080, "abi_")
-entry(0xc084, "abi_")
-entry(0xc088, "abi_")
+entry(0xc080, "abi_unknown_1")
+entry(0xc084, "abi_unknown_2")
+entry(0xc088, "abi_unknown_3")
 
-# can pick vectors from top of ROM (just two because we had to truncate it)
-wordentry(0xfffa, 2);
+# pick vectors from top of ROM
+wordentry(0xfffa, 3);
 
 # the vectors themselves
 entry(0xf022, "nmi_handler")
@@ -109,7 +109,6 @@ entry(0xe008, "maybe_unreachable_e008")
 entry(0xe95b, "maybe_unreachable_e95b")
 
 entry(0xc8cc, "maybe_unreachable_c8cc")
-
 
 # some identified routines
 label(0xc21f, "serial_read_char")
