@@ -63,11 +63,14 @@ label(0x8001, "uart_reg_1")
 label(0x8002, "uart_reg_2")
 label(0x8003, "uart_reg_3")
 label(0x8004, "uart_reg_4")
+label(0x8005, "uart_reg_5")
+label(0x8006, "uart_reg_6")
+label(0x8007, "uart_reg_7")
 label(0x8008, "uart_reg_8")
 label(0x8009, "uart_reg_9")
 label(0x800a, "uart_reg_a")
 label(0x800b, "uart_reg_b")
-label(0x800d, "uart_reg_13")
+label(0x800d, "uart_reg_13_input_ports")
 label(0x800e, "uart_reg_14")
 label(0x800f, "uart_reg_15")
 
@@ -130,6 +133,11 @@ entry(0xe95b, "maybe_unreachable_e95b")
 
 # some identified routines
 label(0xc21f, "serial_read_char")
+label(0xcb1c, "read_keypad")
+label(0xf184, "rti_only")
+
+# some identified tables and strings
+label(0xcb54, "keypad_keys")
 
 # Use all the information provided to actually disassemble the program.
 go()
