@@ -1,7 +1,7 @@
 # control file for py8dis
 # initial disassembly of 16k ROM file from Digiac Mac-III 6502 trainer board
 #
-# This work © 2024 by BigEd is licensed under CC BY-SA 4.0.
+# This work (c) 2024 by BigEd and hoglet is licensed under CC BY-SA 4.0.
 # To view a copy of this license, visit http://creativecommons.org/licenses/by-sa/4.0/
 
 from commands import *
@@ -9,7 +9,18 @@ from commands import *
 # Load the program to be disassembled into the debugger's memory.
 # The md5sum is optional but helps avoid confusion if there are
 # multiple versions of the same program.
-load(0xc000, "digiac-mac-iii.rom", "6502", "83d9634079b0b7a116e2b425cc8dc786")
+
+# take1
+# load(0xc000, "digiac-mac-iii.rom", "6502", "83d9634079b0b7a116e2b425cc8dc786")
+
+# take2
+load(0xc000, "digiac-mac-iii.rom", "6502", "18c01e83131158941665ff91bbb65ea7")
+
+entry(0xf600, "application_1");
+
+# take2 second application
+entry(0xfb00, "application_2");
+wordentry(0xfb98, 7);
 
 # some likely jumptable entries spotted by eye
 wordentry(0xc6c5, 5);
@@ -18,7 +29,12 @@ wordentry(0xc6df, 5);
 wordentry(0xe6f3, 8);
 wordentry(0xed39, 17);
 wordentry(0xed6f, 3);
-wordentry(0xf688, 8);
+
+# take1
+# wordentry(0xf688, 8);
+
+# take2
+wordentry(0xf692, 8);
 
 # this is the ABI
 entry(0xc000, "abi_read")
@@ -70,9 +86,9 @@ label(0x8008, "uart_reg_8")
 label(0x8009, "uart_reg_9")
 label(0x800a, "uart_reg_a")
 label(0x800b, "uart_reg_b")
-label(0x800d, "uart_reg_13_input_ports")
-label(0x800e, "uart_reg_14")
-label(0x800f, "uart_reg_15")
+label(0x800d, "uart_reg_d_input_ports")
+label(0x800e, "uart_reg_e")
+label(0x800f, "uart_reg_f")
 
 label(0x9000, "via_reg_0")
 label(0x9001, "via_reg_1")
@@ -108,9 +124,15 @@ entry(0xc8cd, "complex_irq_handler")
 expr(0xc85e, "<complex_irq_handler")
 expr(0xc863, ">complex_irq_handler")
 
-entry(0xf854, "simple_irq_handler")
-expr(0xf7fc, "<simple_irq_handler")
-expr(0xf801, ">simple_irq_handler")
+# take1
+# entry(0xf854, "simple_irq_handler")
+# expr(0xf7fc, "<simple_irq_handler")
+# expr(0xf801, ">simple_irq_handler")
+
+# take2
+entry(0xf862, "simple_irq_handler")
+expr(0xf80a, "<simple_irq_handler")
+expr(0xf80f, ">simple_irq_handler")
 
 entry(0xdef6, "default_brk_handler")
 expr(0xdd4a, "<default_brk_handler")
