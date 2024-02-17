@@ -149,8 +149,12 @@ expr(0xdfdd, "<alt_nmi_handler")
 expr(0xdfe2, ">alt_nmi_handler")
 
 entry(0xdd7c, "stack_underflow_handler")
-expr(0xf163, ">stack_underflow_handler")
-expr(0xf168, "<(stack_underflow_handler-1)")
+# take 1
+#expr(0xf163, ">stack_underflow_handler")
+#expr(0xf168, "<(stack_underflow_handler-1)")
+# take 2
+expr(0xf17c, ">(stack_underflow_handler-1)")
+expr(0xf181, "<(stack_underflow_handler-1)")
 
 # looks like code but cannot yet see how it is reached
 entry(0xc262, "maybe_unreachable_c262")
