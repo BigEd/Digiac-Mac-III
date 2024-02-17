@@ -173,5 +173,8 @@ label(0xf19d, "rti_only")
 # some identified tables and strings
 label(0xcb54, "keypad_keys")
 
+# disassembler data table
+byte(0xedb7, 0x62)
+
 # Use all the information provided to actually disassemble the program.
 go()
