@@ -6,6 +6,10 @@
 
 from commands import *
 
+#config.set_hex_dump(False)
+#config.set_label_references(False)
+config.set_inline_comment_column(80)
+
 # Load the program to be disassembled into the debugger's memory.
 # The md5sum is optional but helps avoid confusion if there are
 # multiple versions of the same program.
