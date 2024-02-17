@@ -164,7 +164,11 @@ entry(0xe95b, "maybe_unreachable_e95b")
 # some identified routines
 label(0xc21f, "serial_read_char")
 label(0xcb1c, "read_keypad")
-label(0xf184, "rti_only")
+
+# take 1
+# label(0xf184, "rti_only")
+# take 2
+label(0xf19d, "rti_only")
 
 # some identified tables and strings
 label(0xcb54, "keypad_keys")
