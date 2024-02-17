@@ -26,10 +26,17 @@ label(0xfe00, "application_2_menu")
 expr(0xfd49, ">application_2_menu")
 wordentry(0xfb98, 7);
 
+# nonentry() prevent tracing, useful where embedded data follows JSR,
+# or when a unconditional branch is followed by data.
+nonentry(0xe174)
+
 # some likely jumptable entries spotted by eye
 wordentry(0xc6c5, 5);
+nonentry(0xc6c5)
 wordentry(0xc6d2, 5);
+nonentry(0xc6d2)
 wordentry(0xc6df, 5);
+nonentry(0xc6df)
 wordentry(0xe6f3, 8);
 wordentry(0xed39, 17);
 wordentry(0xed6f, 3);
@@ -217,7 +224,6 @@ string_ref(0xf16a, "lj_systems_banner")
 #string_ref(0x, "")
 
 label(0xce4e, "string_flags")
-
 
 # Use all the information provided to actually disassemble the program.
 go()
