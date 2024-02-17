@@ -180,7 +180,18 @@ label(0xf19d, "rti_only")
 # some identified tables and strings
 label(0xcb54, "keypad_keys")
 
-# disassembler data table
+# data tables
+byte(0xc765, 8)
+label(0xc765, "uart_reg_1_initial")
+byte(0xc76d, 6)
+label(0xc76d, "uart_reg_4_initial")
+byte(0xc773, 2)
+label(0xc773, "uart_reg_0_initial")
+
+# disassembler data tables
+byte(0xe555, 0x69)
+
+# other data tables
 byte(0xedb7, 0x62)
 
 # printable strings
