@@ -176,5 +176,48 @@ label(0xcb54, "keypad_keys")
 # disassembler data table
 byte(0xedb7, 0x62)
 
+# printable strings
+
+# Handle blocks of code like
+#    lda #&05
+#    sta l0007
+#    lda #&c3
+#    sta l0008
+
+def string_ref(addr, friendly):
+    string_addr = get_u8_binary(addr + 1) + 256 *  get_u8_binary(addr + 5)
+    string_label = "string_" + friendly
+    label(string_addr, string_label)
+    expr(addr + 1, "<" + string_label)
+    expr(addr + 5, ">" + string_label)
+
+string_ref(0xc2a4, "mac")
+string_ref(0xc5e7, "done")
+string_ref(0xc630, "error")
+string_ref(0xccf6, "memory_limit")
+string_ref(0xcd8a, "a_x_y_pc_sp_sr")
+string_ref(0xcf18, "loading")
+string_ref(0xcfd1, "loaded")
+string_ref(0xd0aa, "device")
+string_ref(0xd0e6, "start_tape")
+string_ref(0xd0fb, "loading")
+string_ref(0xd144, "loaded")
+string_ref(0xd18e, "start_recording")
+string_ref(0xd1a3, "saving")
+string_ref(0xd1e3, "saved")
+string_ref(0xd2b7, "calling_keypad_display_monitor")
+string_ref(0xd30d, "help_commands_short")
+string_ref(0xd318, "help_commands_long")
+string_ref(0xd323, "press_return_for_system_address_info")
+string_ref(0xd340, "help_system_addresses")
+string_ref(0xdf3c, "at_breakpoint")
+string_ref(0xd23e, "serial_params")
+string_ref(0xe977, "load_t1_t2_cas")
+string_ref(0xf16a, "lj_systems_banner")
+#string_ref(0x, "")
+
+label(0xce4e, "string_flags")
+
+
 # Use all the information provided to actually disassemble the program.
 go()
