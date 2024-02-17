@@ -17,9 +17,13 @@ from commands import *
 load(0xc000, "digiac-mac-iii.rom", "6502", "18c01e83131158941665ff91bbb65ea7")
 
 entry(0xf600, "application_1");
+label(0xfa00, "application_1_menu")
+expr(0xf928, ">application_1_menu")
 
 # take2 second application
 entry(0xfb00, "application_2");
+label(0xfe00, "application_2_menu")
+expr(0xfd49, ">application_2_menu")
 wordentry(0xfb98, 7);
 
 # some likely jumptable entries spotted by eye
