@@ -240,5 +240,9 @@ string_ref(0xf16a, "lj_systems_banner")
 
 label(0xce4e, "string_flags")
 
+# a table of error strings
+# TODO: somehow these need to be turned into labels
+word(0xee69, 27)
+
 # Use all the information provided to actually disassemble the program.
 go()
