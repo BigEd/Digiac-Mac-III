@@ -6,6 +6,10 @@
 
 from commands import *
 
+#config.set_hex_dump(False)
+#config.set_label_references(False)
+config.set_inline_comment_column(80)
+
 # Load the program to be disassembled into the debugger's memory.
 # The md5sum is optional but helps avoid confusion if there are
 # multiple versions of the same program.
@@ -17,15 +21,26 @@ from commands import *
 load(0xc000, "digiac-mac-iii.rom", "6502", "18c01e83131158941665ff91bbb65ea7")
 
 entry(0xf600, "application_1");
+label(0xfa00, "application_1_menu")
+expr(0xf928, ">application_1_menu")
 
 # take2 second application
 entry(0xfb00, "application_2");
+label(0xfe00, "application_2_menu")
+expr(0xfd49, ">application_2_menu")
 wordentry(0xfb98, 7);
+
+# nonentry() prevent tracing, useful where embedded data follows JSR,
+# or when a unconditional branch is followed by data.
+nonentry(0xe174)
 
 # some likely jumptable entries spotted by eye
 wordentry(0xc6c5, 5);
+nonentry(0xc6c5)
 wordentry(0xc6d2, 5);
+nonentry(0xc6d2)
 wordentry(0xc6df, 5);
+nonentry(0xc6df)
 wordentry(0xe6f3, 8);
 wordentry(0xed39, 17);
 wordentry(0xed6f, 3);
@@ -145,8 +160,12 @@ expr(0xdfdd, "<alt_nmi_handler")
 expr(0xdfe2, ">alt_nmi_handler")
 
 entry(0xdd7c, "stack_underflow_handler")
-expr(0xf163, ">stack_underflow_handler")
-expr(0xf168, "<(stack_underflow_handler-1)")
+# take 1
+#expr(0xf163, ">stack_underflow_handler")
+#expr(0xf168, "<(stack_underflow_handler-1)")
+# take 2
+expr(0xf17c, ">(stack_underflow_handler-1)")
+expr(0xf181, "<(stack_underflow_handler-1)")
 
 # looks like code but cannot yet see how it is reached
 entry(0xc262, "maybe_unreachable_c262")
@@ -156,10 +175,77 @@ entry(0xe95b, "maybe_unreachable_e95b")
 # some identified routines
 label(0xc21f, "serial_read_char")
 label(0xcb1c, "read_keypad")
-label(0xf184, "rti_only")
+
+# take 1
+# label(0xf184, "rti_only")
+# take 2
+label(0xf19d, "rti_only")
 
 # some identified tables and strings
 label(0xcb54, "keypad_keys")
+
+# data tables
+byte(0xc765, 8)
+label(0xc765, "uart_reg_1_initial")
+byte(0xc76d, 6)
+label(0xc76d, "uart_reg_4_initial")
+byte(0xc773, 2)
+label(0xc773, "uart_reg_0_initial")
+
+# disassembler data tables
+byte(0xe555, 0x69)
+
+# other data tables
+byte(0xedb7, 0x62)
+
+# printable strings
+
+# Handle blocks of code like
+#    lda #&05
+#    sta l0007
+#    lda #&c3
+#    sta l0008
+
+def string_ref(addr, friendly):
+    string_addr = get_u8_binary(addr + 1) + 256 *  get_u8_binary(addr + 5)
+    string_label = "string_" + friendly
+    label(string_addr, string_label)
+    expr(addr + 1, "<" + string_label)
+    expr(addr + 5, ">" + string_label)
+
+string_ref(0xc2a4, "mac")
+string_ref(0xc5e7, "done")
+string_ref(0xc630, "error")
+string_ref(0xccf6, "memory_limit")
+string_ref(0xcd8a, "a_x_y_pc_sp_sr")
+string_ref(0xcf18, "loading")
+string_ref(0xcfd1, "loaded")
+string_ref(0xd0aa, "device")
+string_ref(0xd0e6, "start_tape")
+string_ref(0xd0fb, "loading")
+string_ref(0xd144, "loaded")
+string_ref(0xd18e, "start_recording")
+string_ref(0xd1a3, "saving")
+string_ref(0xd1e3, "saved")
+string_ref(0xd2b7, "calling_keypad_display_monitor")
+string_ref(0xd30d, "help_commands_short")
+string_ref(0xd318, "help_commands_long")
+string_ref(0xd323, "press_return_for_system_address_info")
+string_ref(0xd340, "help_system_addresses")
+string_ref(0xdf3c, "at_breakpoint")
+string_ref(0xd23e, "serial_params")
+string_ref(0xe977, "load_t1_t2_cas")
+string_ref(0xf16a, "lj_systems_banner")
+#string_ref(0x, "")
+
+label(0xce4e, "string_flags")
+
+# a table of error strings
+word(0xee69, 27)
+for i in range(27):
+    addr = get_u8_binary(0xee69+2*i) + 256*get_u8_binary(0xee69+2*i + 1)
+    label(addr, "string_error_" + str(i))
+    expr(0xee69+2*i, "string_error_" + str(i))
 
 # Use all the information provided to actually disassemble the program.
 go()
