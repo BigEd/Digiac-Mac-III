@@ -241,8 +241,11 @@ string_ref(0xf16a, "lj_systems_banner")
 label(0xce4e, "string_flags")
 
 # a table of error strings
-# TODO: somehow these need to be turned into labels
 word(0xee69, 27)
+for i in range(27):
+    addr = get_u8_binary(0xee69+2*i) + 256*get_u8_binary(0xee69+2*i + 1)
+    label(addr, "string_error_" + str(i))
+    expr(0xee69+2*i, "string_error_" + str(i))
 
 # Use all the information provided to actually disassemble the program.
 go()
